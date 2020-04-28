@@ -6,6 +6,8 @@ var quizanswers = document.querySelector(".answers");
 var mainbutton = document.querySelector(".mainbutton");
 var timerEl = document.querySelector(".time");
 var correct= document.querySelector(".correct-wrong");
+var finalscore = document.querySelector(".final-score");
+var localstorage = document.querySelector(".localstorage");
 // creating an object with questions and answers
 var quiz = [[
 "1. What is the fastest land animal?", ["Cheetah","Giraffe","Tiger","Wolf"]],
@@ -23,6 +25,7 @@ startbutton.addEventListener("click",function(){
     timer();
 });
 
+//create funtion that will countdown from 10 to 0
 function timer(){
     var timerinterval = setInterval(function display(){
         if(cycles>=3){
@@ -32,13 +35,39 @@ function timer(){
             cycles++;
             i=10;
         };
-       
+//changing txt attributes to start displaing the questions in the array quiz      
     timerEl.textContent = i;
     i--
     correct.textContent = ""
     main.textContent = quiz[cycles][0];
     quizanswers.innerHTML = "";
-    for (let j =0; j<quiz[0][1].length;j++){
+//Ansewer options are included in a subarray inside Quiz, to display them a for loop iterates to add the to the list
+var newbutton= document.createElement("button");
+newbutton.setAttribute("class", "localstorage");
+newbutton.textContent = "save-score";    
+for (let j =0; j<quiz[0][1].length;j++){
+        if(cycles >= 3){
+            timerEl.textContent = "time is off";
+            correct.textContent = (result/3)*100;
+            correct.append(newbutton);
+            //adding an event listener to save the initials
+                var saveinitials = document.querySelector(".initials");
+                var localstorage = document.querySelector(".localstorage");
+                var newinput= document.createElement("input");
+                newinput.setAttribute("type", "text");
+                newinput.setAttribute("name", "yourinitials");
+                newinput.setAttribute("id", "yourinitials");
+                newinput.setAttribute("placeholder", "Enter your initials");
+
+                localstorage.addEventListener("click", function(){
+                    event.preventDefault();
+                saveinitials.append(newinput);
+                console.log("local");
+                });
+                //finishing the event listener
+            break;
+        }
+
         var newli = document.createElement("li");
         newli.setAttribute("id",j)
         quizanswers.append(newli)
@@ -62,24 +91,19 @@ quizanswers.addEventListener("click",function(event){
         correct.textContent = "Correct!!!";
         result++;
         i = 0;
-    //} 
-    // else if (){
-    //     correct.textContent = "Correct!!!";
-    //     result=result+1;
-    //     i = 0;
-    // }
-    // else if (cycles==2 && answerid==2){
-    //     correct.textContent = "Correct!!!";
-    //     result=result+1;
-    //     i = 0;
     } else{
         correct.textContent = "Wrong!!!";
         i-=3;
     }    
     console.log(result);
-     if(cycles==3){
-            timerEl.textContent = "time is off";
-            correct.textContent = (result/3)*100;
-            //i=1;
-    };
 });
+
+var userinitials = document.querySelector("#yourinitials");
+
+var user = {
+    user_initials: userinitials.value.trim(),
+    user_score: result
+  };
+  
+  console.log(user);
+  localStorage.setItem("user", user);

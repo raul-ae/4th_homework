@@ -18,6 +18,7 @@ h1 {
 body {
     background-color: rgb(102, 202, 202);
 }
-.correct-wrong{
+.localstorage{
     text-align: center;
+    margin: 20px;
 }
