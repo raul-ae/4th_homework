@@ -1,0 +1,23 @@
+.container {
+    text-align: center;
+}
+h1 {
+    margin-top: 100px;
+}
+
+.answerbutton{
+    width: 200px;
+    font-weight: bold;
+    background-color: darkseagreen;
+    margin: 10px;
+
+}
+.time {
+    float: right;
+}
+body {
+    background-color: rgb(102, 202, 202);
+}
+.correct-wrong{
+    text-align: center;
+}
