@@ -7,7 +7,7 @@ var mainbutton = document.querySelector(".mainbutton");
 var timerEl = document.querySelector(".time");
 var correct= document.querySelector(".correct-wrong");
 var finalscore = document.querySelector(".final-score");
-var localstorage = document.querySelector(".localstorage");
+var savelocal = document.querySelector(".localstorage");
 // creating an object with questions and answers
 var quiz = [[
 "1. What is the fastest land animal?", ["Cheetah","Giraffe","Tiger","Wolf"]],
@@ -98,12 +98,50 @@ quizanswers.addEventListener("click",function(event){
     console.log(result);
 });
 
-var userinitials = document.querySelector("#yourinitials");
+var scores = [["test",100],["test",50]];
+var scorelist = document.querySelector(".scores_list");
 
-var user = {
-    user_initials: userinitials.value.trim(),
-    user_score: result
-  };
+function printstore(){
+
+    scorelist.innerHTML = "";
+    for (let x=0; x<scores.length; x++){
+        var li = document.createElement("li");
+        li.textContent = scores[x];
+        li.setAttribute("data-index", x);
+        scorelist.appendChild(li);
+    }
+}
+
+function init(){
+    
+  var storedscores = JSON.parse(localStorage.getItem("scores"));
+
+  if (storedscores !== null) {
+    scores = storedscores;
+  }
+
+  printstore();
+};
+function storescore() {
+    localStorage.setItem("scores", JSON.stringify(scores));
+}
+// When form is submitted
+var userinitials = document.querySelector("#yourinitials");
+userinitials.addEventListener("submit", function(event) {
+    // event.preventDefault();
   
-  console.log(user);
-  localStorage.setItem("user", user);
+    var scoreText = userinitials.value.trim();
+  
+    // Return from function early if submitted scoreText is blank
+    if (scoreText === "") {
+      return;
+    }
+
+ // Add new scoreText to scores array, clear the input
+ scores.push(scoreText);
+ userinitials.value = "";
+
+ storescore();
+ printstore();
+});
+
